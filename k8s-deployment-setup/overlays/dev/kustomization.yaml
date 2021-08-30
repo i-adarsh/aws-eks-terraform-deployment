@@ -1,0 +1,18 @@
+# bases:
+#   - ../../base
+
+resources:
+  - namespace.yaml
+  - ../../base
+
+namespace: dev
+
+namePrefix: dev-
+
+commonLabels:
+  env: dev
+
+patches:
+  - replica-count.yaml
+
+

@@ -1,0 +1,13 @@
+resources:
+  - namespace.yaml
+  - ../../base
+
+namespace: prod
+
+namePrefix: prod-
+
+commonLabels:
+  env: prod
+
+patches:
+  - replica-count.yaml

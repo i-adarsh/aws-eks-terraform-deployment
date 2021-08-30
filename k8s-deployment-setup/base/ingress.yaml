@@ -1,0 +1,22 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-wildcard-host
+spec:
+  # tls:
+  #   - hosts:
+  #     - arixcreator.ml
+  #     secretName: k8s-cert
+  # arixcreators.ml
+  ingressClassName: nginx
+  rules:
+  - host: "a84f05780bd1d476ea24e1f5f06fa29a-1297434533.us-east-1.elb.amazonaws.com"
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: revving
+            port:
+              number: 80

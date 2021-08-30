@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: revving
+  name: revving
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: revving
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: revving
+    spec:
+      #==============================================
+      # ======> PVC (Volume Claim) <=======
+      volumes:
+      - name: host-volume
+        persistentVolumeClaim:
+          claimName: pvc-hostpath
+      #==============================================
+      #==============================================
+      containers:
+      - image: iadarshkr/revvingstatic
+        name: revving
+        #==============================================
+        # # ===> Liveness and Readiness Probe <===
+        # args:
+        #   - /bin/sh
+        #   - -c
+        #   - touch Adarsh; sleep 20; rm -f Adarsh; sleep 600 ## Live
+        #   - sleep 20; touch hello; sleep 600 
+        # livenessProbe:
+        # # readinessProbe:
+        #   exec:
+        #     command:
+        #       - cat
+        #       - hello
+        #   initialDelaySeconds: 5 # Initial Delay after starting the container/pod | 5 -> Live | 15 -> Readiness
+        #   periodSeconds: 3 # Liveness Check will happen in every 3 seconds
+        #==============================================
+        #==============================================
+        # ====> Horizontal Pod Autoscaler  <====
+        resources: 
+          limits:
+            cpu: "100m"
+          requests:
+            cpu: "100m"
+        #==============================================
+        #==============================================
+        # ======> PVC (Volume Mount) <=======
+        # command: ["/bin/sh"]
+        # args: ["-c", "sleep 5"]
+        volumeMounts:
+        - name: host-volume
+          mountPath: /mydata
+        #==============================================
+        #==============================================
+
+status: {}

@@ -1,0 +1,15 @@
+pipeline{
+    agent none
+    stages{
+            stage('Deploy'){
+            agent any
+            steps{
+            sh label: '', script: '''
+cd overlays/dev/
+sudo kustomize build . > deploy.yaml 
+sudo kubectl apply -f deploy.yaml
+'''
+        }
+    }
+}
+}
